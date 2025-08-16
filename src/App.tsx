@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import MainWeatherCard from "./components/MainWeatherCard.tsx";
-import WeeklyForecast from "./components/WeeklyForecast.tsx";
-import type { DailyForecast, WeatherData, Location } from "./types";
-import { getCurrentWeather } from "./api/request.ts";
+import DailyWeatherList from "./components/DailyWeatherList.tsx";
+import type { WeatherData, Location, DailyWeather } from "./types";
+import { getCurrentWeather, getDailyWeather } from "./api/request.ts";
 import { defaultLocation } from "./utils/location.ts";
 
 function App() {
     const [loading, setLoading] = useState(false);
-    const [dailyForecasts, setDailyForecasts] = useState<DailyForecast[]>([]);
+    const [dailyWeather, setDailyWeather] = useState<DailyWeather[]>([]);
     const [currentWeather, setCurrentWeather] = useState<WeatherData | null>(null);
     const [location, setLocation] = useState<Location | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        setDailyForecasts([]);
+        setDailyWeather([]);
 
         setLocation(defaultLocation);
     }, []);
@@ -35,8 +35,14 @@ function App() {
     const fetchWeatherData = async () => {
         try {
             setLoading(true);
-            const weather = await getCurrentWeather(location!);
-            setCurrentWeather(weather);
+            const [currentWeather, dailyWeather] = await Promise.all([
+                getCurrentWeather(location!),
+                getDailyWeather(location!),
+            ]);
+
+            setCurrentWeather(currentWeather);
+            setDailyWeather(dailyWeather);
+
             setLoading(false);
             setError(null);
         } catch (error) {
@@ -45,10 +51,10 @@ function App() {
     };
 
     return (
-        <div>
+        <div className="min-h-screen w-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col">
             {error && <div className="text-red-500">{error}</div>}
             <MainWeatherCard weatherData={currentWeather} loading={loading} />
-            <WeeklyForecast forecasts={dailyForecasts} loading={loading} />
+            <DailyWeatherList weatherData={dailyWeather} loading={loading} />
         </div>
     );
 }

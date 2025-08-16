@@ -8,7 +8,7 @@ export interface WeatherData {
     windSpeed: number;
 }
 
-export interface DailyForecast {
+export interface DailyWeather {
     date: Date;
     dayName: string;
     temperatureMax: number;
