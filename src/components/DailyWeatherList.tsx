@@ -2,7 +2,14 @@ import type { DailyWeather } from "../types";
 import DailyWeatherItem from "./DailyWeatherItem.tsx";
 import * as React from "react";
 
-const DailyWeatherList: React.FC<{ weatherData: DailyWeather[]; loading: boolean }> = ({ weatherData, loading }) => {
+interface Props {
+    weatherData: DailyWeather[];
+    loading: boolean;
+    onSelect?: (day: DailyWeather) => void;
+    selectedDate?: DailyWeather["date"] | null;
+}
+
+const DailyWeatherList: React.FC<Props> = ({ weatherData, loading, onSelect, selectedDate = null }) => {
     if (loading) {
         return (
             <div className="bg-gray-50 p-6">
@@ -33,7 +40,12 @@ const DailyWeatherList: React.FC<{ weatherData: DailyWeather[]; loading: boolean
         <div className="bg-gray-50 p-6">
             <div className="mx-auto flex gap-3 justify-center overflow-x-auto pb-2 pt-2 mb-4">
                 {weatherData.map((weather, index) => (
-                    <DailyWeatherItem key={index} weatherData={weather} />
+                    <DailyWeatherItem
+                        key={index}
+                        weatherData={weather}
+                        onClick={onSelect}
+                        selected={selectedDate != null && weather.date === selectedDate}
+                    />
                 ))}
             </div>
         </div>

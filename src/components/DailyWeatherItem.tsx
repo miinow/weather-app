@@ -1,16 +1,23 @@
 import type { DailyWeather } from "../types";
 import WeatherIcon from "./WeatherIcon.tsx";
 
-const DailyWeatherItem: React.FC<{ weatherData: DailyWeather }> = ({ weatherData }) => {
+interface Props {
+    weatherData: DailyWeather;
+    onClick?: (day: DailyWeather) => void;
+    selected?: boolean;
+}
 
+const DailyWeatherItem: React.FC<Props> = ({ weatherData, onClick, selected = false }) => {
+    const selectedStyles = selected ? "ring-2 ring-blue-500 bg-blue-50" : "";
     return (
         <div
-            className={`flex-shrink-0 bg-white rounded-2xl p-4 shadow-sm transition-all hover:shadow-sm hover:scale-105 ${weatherData.isToday && "ring-2 ring-blue-400 bg-blue-50"}`}
+            onClick={onClick ? () => onClick(weatherData) : undefined}
+            onKeyDown={onClick ? (e) => { if (e.key === "Enter" || e.key === " ") onClick(weatherData); } : undefined}
+            className={`cursor-pointer flex-shrink-0 bg-white rounded-2xl p-4 shadow-sm transition-all hover:shadow-sm hover:scale-105 ${weatherData.isToday ? "ring-2 ring-blue-400 bg-blue-50" : ""} ${selectedStyles}`}
             style={{ minWidth: "140px" }}
         >
             <div className="text-center">
-                <div
-                    className={`font-semibold text-sm mb-1 ${weatherData.isToday ? "text-blue-600" : "text-gray-700"}`}>
+                <div className={`font-semibold text-sm mb-1 ${weatherData.isToday ? "text-blue-600" : "text-gray-700"}`}>
                     {weatherData.dayName}
                 </div>
                 <div className="text-xs text-gray-500 mb-3">

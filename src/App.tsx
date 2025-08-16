@@ -3,7 +3,7 @@ import "./App.css";
 import MainWeatherCard from "./components/MainWeatherCard.tsx";
 import DailyWeatherList from "./components/DailyWeatherList.tsx";
 import type { WeatherData, Location, DailyWeather } from "./types";
-import { getCurrentWeather, getDailyWeather } from "./api/weather.ts";
+import { getCurrentWeather, getDailyWeather, getWeatherForDate } from "./api/weather.ts";
 import { defaultLocation } from "./utils/location.ts";
 
 function App() {
@@ -12,6 +12,9 @@ function App() {
     const [currentWeather, setCurrentWeather] = useState<WeatherData | null>(null);
     const [location, setLocation] = useState<Location | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [selectedDaily, setSelectedDaily] = useState<DailyWeather | null>(null);
+    const [selectedDetail, setSelectedDetail] = useState<WeatherData | null>(null);
+    const [detailLoading, setDetailLoading] = useState(false);
 
     useEffect(() => {
         setDailyWeather([]);
@@ -23,6 +26,9 @@ function App() {
         if (!location) {
             return;
         }
+
+        setSelectedDaily(null);
+        setSelectedDetail(null);
 
         fetchWeatherData();
 
@@ -50,11 +56,40 @@ function App() {
         }
     };
 
+    const handleSelectDay = async (day: DailyWeather) => {
+        if (!location) {
+            return;
+        }
+        try {
+            setDetailLoading(true);
+            setSelectedDaily(day);
+            const detail = await getWeatherForDate(location, day.date);
+            setSelectedDetail(detail);
+            setError(null);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Failed to fetch selected day weather");
+        } finally {
+            setDetailLoading(false);
+        }
+    };
+
+
     return (
         <div className="min-h-screen w-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col">
             {error && <div className="text-red-500">{error}</div>}
-            <MainWeatherCard weatherData={currentWeather} loading={loading} setLocation={setLocation} />
-            <DailyWeatherList weatherData={dailyWeather} loading={loading} />
+            <MainWeatherCard
+                weatherData={currentWeather}
+                loading={loading || detailLoading}
+                setLocation={setLocation}
+                selectedDaily={selectedDaily}
+                selectedDetail={selectedDetail}
+            />
+            <DailyWeatherList
+                weatherData={dailyWeather}
+                loading={loading}
+                onSelect={handleSelectDay}
+                selectedDate={selectedDaily?.date ?? null}
+            />
         </div>
     );
 }

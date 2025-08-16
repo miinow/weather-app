@@ -6,10 +6,12 @@ export interface WeatherData {
     icon: string;
     humidity: number;
     windSpeed: number;
+    date: string;
+    dayName: string;
 }
 
 export interface DailyWeather {
-    date: Date;
+    date: string;
     dayName: string;
     temperatureMax: number;
     temperatureMin: number;
