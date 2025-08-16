@@ -66,15 +66,15 @@ const LocationSearchBar: React.FC<Props> = ({ onSelect }) => {
     };
 
     return (
-        <div className="relative block h-16 w-full xl:h-8 xl:w-80">
+        <div className="relative block h-8 w-80">
             <div className="absolute left-4 inset-y-0 z-10 flex items-center text-gray-400">
-                <Search className="h-6 w-6 xl:h-4 xl:w-4" />
+                <Search className="h-6 w-6" />
             </div>
             <input
                 value={value}
                 onChange={(e) => handleInput(e.target.value)}
                 placeholder="Search for location..."
-                className="h-full w-full rounded-lg border-0 pl-12 pr-10 outline-none placeholder:text-gray-400 shadow shadow-gray-300 text-base xl:text-sm"
+                className="h-full w-full rounded-lg border-0 pl-12 pr-10 outline-none placeholder:text-gray-400 shadow shadow-gray-300 text-sm"
             />
             {value && (
                 <SearchBarLocations

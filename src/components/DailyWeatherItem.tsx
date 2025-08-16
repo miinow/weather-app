@@ -13,7 +13,7 @@ const DailyWeatherItem: React.FC<Props> = ({ weatherData, onClick, selected = fa
         <div
             onClick={onClick ? () => onClick(weatherData) : undefined}
             onKeyDown={onClick ? (e) => { if (e.key === "Enter" || e.key === " ") onClick(weatherData); } : undefined}
-            className={`cursor-pointer flex-shrink-0 bg-white rounded-2xl p-4 shadow-sm transition-all hover:shadow-sm hover:scale-105 ${weatherData.isToday ? "ring-2 ring-blue-400 bg-blue-50" : ""} ${selectedStyles}`}
+            className={`cursor-pointer flex-shrink-0 max-xl:flex-1 bg-white rounded-2xl p-4 shadow-sm transition-all hover:shadow-sm hover:scale-105 ${weatherData.isToday ? "ring-2 ring-blue-400 bg-blue-50" : ""} ${selectedStyles}`}
             style={{ minWidth: "140px" }}
         >
             <div className="text-center">

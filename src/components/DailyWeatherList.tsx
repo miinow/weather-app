@@ -38,7 +38,7 @@ const DailyWeatherList: React.FC<Props> = ({ weatherData, loading, onSelect, sel
 
     return (
         <div className="bg-gray-50 p-6">
-            <div className="mx-auto flex gap-3 justify-center overflow-x-auto pb-2 pt-2 mb-4">
+            <div className="mx-auto flex gap-3 xl:justify-center justify-start overflow-x-scroll pb-2 pt-2 mb-4">
                 {weatherData.map((weather, index) => (
                     <DailyWeatherItem
                         key={index}
