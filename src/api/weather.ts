@@ -41,7 +41,7 @@ export async function getDailyWeather(location: Location): Promise<DailyWeather[
     const today = getDate(0);
     const { daily } = data;
 
-    return daily.time.map((date, i) => {
+    return daily.time.map((date: string, i: number) => {
         const weatherInfo = getWeatherCondition(daily.weather_code[i]);
 
         return {

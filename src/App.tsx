@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import "./App.css";
 import MainWeatherCard from "./components/MainWeatherCard.tsx";
 import DailyWeatherList from "./components/DailyWeatherList.tsx";
@@ -56,7 +56,7 @@ function App() {
         }
     };
 
-    const handleSelectDay = async (day: DailyWeather) => {
+    const handleSelectDay = useCallback(async (day: DailyWeather) => {
         if (!location) {
             return;
         }
@@ -71,7 +71,7 @@ function App() {
         } finally {
             setDetailLoading(false);
         }
-    };
+    }, [location]);
 
 
     return (
