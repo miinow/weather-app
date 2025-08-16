@@ -17,3 +17,9 @@ export interface DailyForecast {
     icon: string;
     isToday: boolean;
 }
+
+export interface Location {
+    latitude: number;
+    longitude: number;
+    city: string;
+}
