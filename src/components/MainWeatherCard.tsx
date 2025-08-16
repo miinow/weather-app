@@ -1,10 +1,17 @@
 import * as React from "react";
-import type { WeatherData } from "../types";
+import type { Location, WeatherData } from "../types";
 import Loading from "./Loading.tsx";
 import { Droplets, Wind } from "lucide-react";
 import WeatherIcon from "./WeatherIcon.tsx";
+import LocationSearchBar from "./LocationSearchBar.tsx";
 
-const MainWeatherCard: React.FC<{ weatherData: WeatherData | null; loading: boolean }> = ({ weatherData, loading }) => {
+interface Props {
+    weatherData: WeatherData | null;
+    loading: boolean;
+    setLocation: (location: Location) => void;
+}
+
+const MainWeatherCard: React.FC<Props> = ({ weatherData, loading, setLocation }) => {
 
     if (loading) {
         return <Loading />;
@@ -17,10 +24,10 @@ const MainWeatherCard: React.FC<{ weatherData: WeatherData | null; loading: bool
 
     return (
         <div className="bg-white shadow-2xl flex-1 flex flex-col justify-center items-center p-8">
-            <h1 className="text-center text-gray-700 text-xl font-medium mb-12 leading-tight">
+            <h1 className="text-center text-gray-700 text-xl font-medium mb-6 leading-tight">
                 {weatherData.city}
             </h1>
-
+            <LocationSearchBar onSelect={setLocation} />
             <div className="flex justify-center mb-12">
                 <div className="relative w-40 h-40 flex items-center justify-center">
                     <WeatherIcon icon={weatherData.icon} size={160} />

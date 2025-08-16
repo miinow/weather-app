@@ -23,3 +23,11 @@ export interface Location {
     longitude: number;
     city: string;
 }
+
+export interface LocationResponse {
+    latitude: number;
+    longitude: number;
+    name: string;
+    admin1?: string;
+    country?: string;
+}

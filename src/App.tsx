@@ -3,7 +3,7 @@ import "./App.css";
 import MainWeatherCard from "./components/MainWeatherCard.tsx";
 import DailyWeatherList from "./components/DailyWeatherList.tsx";
 import type { WeatherData, Location, DailyWeather } from "./types";
-import { getCurrentWeather, getDailyWeather } from "./api/request.ts";
+import { getCurrentWeather, getDailyWeather } from "./api/weather.ts";
 import { defaultLocation } from "./utils/location.ts";
 
 function App() {
@@ -53,7 +53,7 @@ function App() {
     return (
         <div className="min-h-screen w-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col">
             {error && <div className="text-red-500">{error}</div>}
-            <MainWeatherCard weatherData={currentWeather} loading={loading} />
+            <MainWeatherCard weatherData={currentWeather} loading={loading} setLocation={setLocation} />
             <DailyWeatherList weatherData={dailyWeather} loading={loading} />
         </div>
     );
