@@ -5,6 +5,7 @@ import DailyWeatherList from "./components/DailyWeatherList.tsx";
 import type { WeatherData, Location, DailyWeather } from "./types";
 import { getCurrentWeather, getDailyWeather, getWeatherForDate } from "./api/weather.ts";
 import { defaultLocation } from "./utils/location.ts";
+import { Toaster, toast } from "react-hot-toast";
 
 function App() {
     const [loading, setLoading] = useState(false);
@@ -18,9 +19,14 @@ function App() {
 
     useEffect(() => {
         setDailyWeather([]);
-
         setLocation(defaultLocation);
     }, []);
+
+    useEffect(() => {
+        if (error) {
+            toast.error(error);
+        }
+    }, [error]);
 
     useEffect(() => {
         if (!location) {
@@ -73,10 +79,9 @@ function App() {
         }
     }, [location]);
 
-
     return (
         <div className="min-h-screen w-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col">
-            {error && <div className="text-red-500">{error}</div>}
+            <Toaster position="top-center" />
             <MainWeatherCard
                 weatherData={selectedDetail ?? currentWeather}
                 loading={loading || detailLoading}
