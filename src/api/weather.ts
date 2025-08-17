@@ -72,6 +72,8 @@ export async function getWeatherForDate(location: Location, date: string): Promi
     const weatherInfo = getWeatherCondition(data.hourly.weather_code[idx]);
 
     return {
+        date,
+        dayName: getDayName(date),
         city: location.city,
         temperature: data.hourly.temperature_2m[idx],
         feelsLike: data.hourly.apparent_temperature[idx],

@@ -11,32 +11,31 @@ interface Props {
 }
 
 const DailyWeatherList: React.FC<Props> = ({ weatherData, loading, onSelect, selectedDate = null }) => {
-    if (loading) {
-        return (
-            <div className="bg-gray-50 p-6">
-                <div className="max-w-s mx-auto">
-                    <div className="flex justify-center gap-3 overflow-x-auto pb-2">
-                        {[...Array(7)].map((_, index) => (
-                            <Skeleton key={index} />
-                        ))}
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className="bg-gray-50 p-6">
-            <div className="mx-auto flex gap-3 xl:justify-center justify-start overflow-x-scroll pb-2 pt-2 mb-4">
-                {weatherData.map((weather, index) => (
-                    <DailyWeatherItem
-                        key={index}
-                        weatherData={weather}
-                        onClick={onSelect}
-                        selected={!!selectedDate && weather.date === selectedDate}
-                    />
-                ))}
-            </div>
+            {
+                loading ? (
+                    <div className="max-w-s mx-auto">
+                        <div className="flex justify-center gap-3 overflow-x-auto pb-2">
+                            {[...Array(7)].map((_, index) => (
+                                <Skeleton key={index} />
+                            ))}
+                        </div>
+                    </div>
+                ) : (
+                    <div
+                        className="mx-auto flex gap-3 xl:justify-center justify-start overflow-x-scroll pb-2 pt-2 mb-4">
+                        {weatherData.map((weather, index) => (
+                            <DailyWeatherItem
+                                key={index}
+                                weatherData={weather}
+                                onClick={onSelect}
+                                selected={!!selectedDate && weather.date === selectedDate}
+                            />
+                        ))}
+                    </div>
+                )
+            }
         </div>
     );
 };
