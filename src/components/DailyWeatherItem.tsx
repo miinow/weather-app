@@ -10,13 +10,18 @@ interface Props {
 
 const DailyWeatherItem: React.FC<Props> = ({ weatherData, onClick, selected = false }) => {
     const selectedStyles = selected ? "ring-2 ring-blue-500 bg-blue-50" : "";
+    const todayStyles = weatherData.isToday ? "ring-2 ring-blue-400 bg-blue-50" : "";
 
-    const handleClick = () => onClick ? () => onClick(weatherData) : undefined
+    const handleClick = () => {
+        if (onClick) {
+            onClick(weatherData);
+        }
+    };
 
     return (
         <div
             onClick={handleClick}
-            className={`cursor-pointer flex-shrink-0 max-xl:flex-1 bg-white rounded-2xl p-4 shadow-sm transition-all hover:shadow-sm hover:scale-105 min-w-[140px] ${weatherData.isToday ? "ring-2 ring-blue-400 bg-blue-50" : ""} ${selectedStyles}`}
+            className={`cursor-pointer flex-shrink-0 max-xl:flex-1 bg-white rounded-2xl p-4 ml-2 mr-2 shadow-sm transition-all hover:shadow-sm hover:scale-105 min-w-[140px] ${todayStyles} ${selectedStyles}`}
         >
             <div className="text-center">
                 <div className={`font-semibold text-sm mb-1 ${weatherData.isToday ? "text-blue-600" : "text-gray-700"}`}>

@@ -78,11 +78,9 @@ function App() {
         <div className="min-h-screen w-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col">
             {error && <div className="text-red-500">{error}</div>}
             <MainWeatherCard
-                weatherData={currentWeather}
+                weatherData={selectedDetail ?? currentWeather}
                 loading={loading || detailLoading}
                 setLocation={setLocation}
-                selectedDaily={selectedDaily}
-                selectedDetail={selectedDetail}
             />
             <DailyWeatherList
                 weatherData={dailyWeather}
